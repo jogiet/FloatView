@@ -1,0 +1,6 @@
+(env (dev (flags (:standard -w -32))))
+(library
+ (name FloatView)
+ (wrapped false)
+ (libraries bitv zarith)
+ (modules Color Log Utils Binary Decimal Floats Convert))
