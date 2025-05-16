@@ -84,6 +84,37 @@ let pp fmt d =
   Format.fprintf fmt ".%s"
     (Z.format (Format.sprintf "%%0%ii" d.size_frac) d.frac_part)
 
+(** [pp_scientific ?significand] is a pretty printer of decimal values in
+    scientific notation.
+
+    The optional argument [significand] set the number of significand number to
+    print. If this argument is not set; or set to [0], then all digits in the
+    decimal values are printed. *)
+let pp_scientific ?significand fmt d =
+  if d.int_part = Z.zero && d.frac_part = Z.zero then
+    Format.fprintf fmt "%c0.0"
+    (if d.sign then '+' else '-') else
+  let pow, str =
+    if d.int_part = Z.zero then
+      let str = Z.to_string d.frac_part in
+      - d.size_frac -1 + String.length str, str
+    else
+      let int_str = Z.to_string d.int_part in
+      let pow = String.length int_str -1 in
+      let str = Format.asprintf "%s%s"
+          int_str
+          (Z.format (Format.sprintf "%%0%ii" d.size_frac) d.frac_part) in
+      pow, str in
+  let len = match significand with
+    | None -> String.length str -1
+    | Some i when i <= 0 -> String.length str -1
+    | Some i -> min i (String.length str -1 ) in
+  Format.fprintf fmt "%c%c.%se%i"
+    (if d.sign then '+' else '-')
+    (String.get str 0)
+    (String.sub str 1 len)
+    pow
+
 let from_int i =
   let sign, i = if i >= 0 then true, i else false, -i in
   let int_part = Z.of_int i in
