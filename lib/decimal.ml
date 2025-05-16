@@ -13,11 +13,17 @@
 (** exact representation of decimal numbers *)
 type decimal = {
   sign: bool;     (** Sign of tha value. [true] for positive value. *)
-  int_part: Z.t;  (** integral pat of the decimal number. *)
-  frac_part: Z.t; (** fractional part of the decimal number *)
+  int_part: Z.t;  (** integral part of the decimal number.
+                      Always positive.  *)
+  frac_part: Z.t; (** fractional part of the decimal number.
+                      Always positive. *)
   size_frac: int; (** size of the fractional part {i i.e.} the number of digits
                       after the point.*)
 }
+(** The value reprsented by a decimal type is
+    (-1)·([integer_part] + [frac_part]·10^[-size_frac]).
+    *)
+
 
 type t = decimal
 
