@@ -31,9 +31,12 @@ let build_precision ?(name = "") mantissa ?(biais=None) exp =
 
 (** {2 IEEE-754 representation}*)
 
+let mini = build_precision ~name:"mini" 3 4
 let half   = build_precision ~name:"half" 10 5
 let single = build_precision ~name:"single" 23 8
 let double = build_precision ~name:"double" 52 11
+let quadruple = build_precision ~name:"quadruple" 112 15
+let octuple = build_precision ~name:"octuple" 236 19
 
 (** precision of the currently sued system.
     May be {!single} (32bits) or {!double} (64 bits) *)
