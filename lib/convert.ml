@@ -103,6 +103,11 @@ let bin_to_float p (bin: B.t) : F.float_bw =
 exception IsInf of bool
 exception IsNan
 
+(** [float_to_bin f] converts a float to a binary representation.
+
+    @raises [IsInf] when [f] is an inifinite value.
+    @raises [IsNan] when [f] is a not a number value.
+    *)
 let float_to_bin (f: F.t) =
   let sign = f.s in
   if F.is_zero f then { B.zero with sign } else
