@@ -64,7 +64,8 @@ let pow10 d p =
     let size_frac = max 0 (d.size_frac - p) in
     let fact = Z.of_string ("1"^(String.make size_frac '0')) in
     let div, frac_part = Z.div_rem d.frac_part fact in
-    let int_part = Z.add div (Z.mul d.int_part div) in
+    let fact_int = Z.of_string ("1"^(String.make p '0')) in
+    let int_part = Z.add div (Z.mul d.int_part fact_int) in
     { size_frac; int_part; frac_part; sign = d.sign }
   else
     let p = -p in
