@@ -24,6 +24,56 @@ type decimal = {
     (-1)·([integer_part] + [frac_part]·10^[-size_frac]).
     *)
 
+(** [extand_frac s size] extend the decimal value [d] so that its fractional
+    part has size [size].
+
+    @raise {!Assertion_failure} if the fractional part of [d] is greater than
+      [size]. *)
+let extend_frac d size =
+  assert (size >= d.size_frac);
+  if size = d.size_frac then d else
+  let padd = Z.of_string ("1"^(String.make (size-d.size_frac) '0')) in
+  let frac_part = Z.mul d.frac_part padd in
+  { d with size_frac = size; frac_part }
+
+(** [propagate_sign d] set the sign of [d] to its integer and fractional parts.
+    This entails that the returned decimal value is not in normal form. *)
+let propagate_sign ({sign; int_part; frac_part; _} as d) =
+  if sign then d else
+  let int_part = Z.neg int_part in
+  let frac_part = Z.neg frac_part in
+  { d with int_part; frac_part}
+
+
+(** Addition of two decimal values. *)
+let add d1 d2 =
+  let size_frac = max d1.size_frac d2.size_frac in
+  let d1 = extend_frac d1 size_frac |> propagate_sign in
+  let d2 = extend_frac d2 size_frac |> propagate_sign in
+  let int_part = Z.add d1.int_part d2.int_part in
+  let frac_part = Z.add d1.frac_part d2.frac_part in
+  let fact = Z.of_string ("1"^(String.make size_frac '0')) in
+  let overflow, frac_part = Z.div_rem frac_part fact in
+  let int_part = Z.add int_part overflow in
+  let int_part, frac_part, sign = match Z.geq int_part Z.zero, Z.geq frac_part Z.zero with
+    | true, true -> int_part, frac_part, true
+    | false, false -> Z.neg int_part, Z.neg frac_part, false
+    | true, false when Z.equal int_part Z.zero ->
+        int_part, Z.neg frac_part, false
+    | true, false ->
+        let int_part = Z.pred int_part in
+        let frac_part = Z.add fact frac_part in
+        int_part, frac_part, true
+    | false, true ->
+        let int_part = Z.pred int_part in
+        let frac_part = Z.sub fact frac_part in
+        Z.neg int_part, frac_part, false in
+  { int_part; frac_part; sign; size_frac}
+
+(** Substraction of two decimal values. *)
+let sub d1 d2 =
+  let d2 = { d2 with sign = not d2.sign} in
+  add d1 d2
 
 type t = decimal
 
