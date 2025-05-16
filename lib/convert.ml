@@ -105,7 +105,7 @@ exception IsNan
 
 let float_to_bin (f: F.t) =
   let sign = f.s in
-  if F.is_zero f then B.zero else
+  if F.is_zero f then { B.zero with sign } else
   if Bitv.all_ones f.e then
     if Bitv.all_zeros f.m then raise (IsInf f.s) else raise IsNan else
   let exp = Bitv.to_int_us f.e in
