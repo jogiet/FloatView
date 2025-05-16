@@ -152,6 +152,13 @@ let classify {e; m; _} : Float.fpclass =
       else FP_nan
   else FP_normal
 
+let pp_fpclass fmt: fpclass -> unit = function
+  | FP_normal -> Format.pp_print_string fmt "normal"
+  | FP_subnormal -> Format.pp_print_string fmt "subnormal"
+  | FP_zero -> Format.pp_print_string fmt "zero"
+  | FP_nan -> Format.pp_print_string fmt "nan"
+  | FP_infinite -> Format.pp_print_string fmt "infinite"
+
 (** {2 Utilitaries functions}*)
 
 exception Overflow
