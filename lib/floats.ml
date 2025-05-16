@@ -250,3 +250,11 @@ type rounding =
   | TO_INF | TO_MINF (** round towards \pm inf *)
   | TO_ZERO    (** rounds towards zero (ignore trailing bits) *)
   | TO_NEAREST (** rounds towards nearest floating point. *)
+
+type conversion_info =
+  | EXACT
+  | ROUNDED
+
+let pp_conversion_info fmt = function
+    | EXACT -> Format.pp_print_string fmt "exact"
+    | ROUNDED -> Format.pp_print_string fmt "rounded"

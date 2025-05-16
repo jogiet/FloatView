@@ -69,25 +69,27 @@ let bin_to_dec (b: B.t): D.t =
 (** {1 Binary <-> Floats} *)
 
 
-let bin_to_float p (bin: B.t) : F.float_bw =
+let bin_to_float_info p (bin: B.t) : F.float_bw * F.conversion_info =
   let sign = bin.sign in
-  match B.get_first_non_null bin with None -> F.get_zero ~sign p | Some is ->
+  match B.get_first_non_null bin with None -> F.get_zero ~sign p, EXACT | Some is ->
   let exp = ref (is + p.biais) in
   if !exp <= 0 then
     if !exp + p.mantissa <= 0 then
-      Floats.get_zero ~sign:bin.sign p
+      Floats.get_zero ~sign:bin.sign p, F.ROUNDED
     else
       let e = Bitv.create p.exp false in
       let m = Bitv.init p.mantissa (fun i -> B.get_bit bin (-p.biais-i)) in
       let s = bin.sign in
-      {p; s; e; m} else
+      let rnd = if B.is_null_after bin (-p.biais-p.mantissa+1) then
+        F.EXACT else F.ROUNDED in
+      {p; s; e; m}, rnd else
   let e = Bitv.create p.exp false in
   let () =
     for i = 0 to p.exp - 1 do
       if !exp mod 2 <> 0 then Bitv.set e i true;
       exp := !exp / 2;
     done in
-  if !exp > 0 || Bitv.all_ones e then F.get_inf bin.sign p else
+  if !exp > 0 || Bitv.all_ones e then F.get_inf bin.sign p, F.ROUNDED else
   let m = Bitv.init p.mantissa
     (fun i -> B.get_bit bin (is - i - 1)) in
   let round = B.get_bit bin (is - p.mantissa -1 ) in
@@ -98,7 +100,13 @@ let bin_to_float p (bin: B.t) : F.float_bw =
       with F.Overflow -> Log.debug "Impossible Overflow: %a"
         F.pp_ul { p; e; m; s = sign }
   in
-  { p; e; m; s = sign }
+  let rnd = if B.is_null_after bin (is -p.mantissa -1) then
+    F.EXACT else F.ROUNDED in
+  { p; e; m; s = sign }, rnd
+
+let bin_to_float p bin =
+  let res, _ = bin_to_float_info p bin in
+  res
 
 exception IsInf of bool
 exception IsNan

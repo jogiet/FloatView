@@ -77,6 +77,14 @@ let get_first_non_null bin =
     None
   with Found i -> Some i
 
+(** [is_null_after b bit] returns true [true] iff. all bits in [b] after the
+    [bit]^th (included) are null.*)
+let is_null_after b bit =
+  let thresh = -(Bitv.length b.repeating + Bitv.length b.fractional + 1) in
+  let rec aux i =
+    i < thresh || not (get_bit b i) && aux (i-1) in
+  aux bit
+
 (** Alias for the {!binary} type. used for {!Map.Make} functoe. *)
 type t = binary
 
