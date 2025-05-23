@@ -2,5 +2,5 @@
 (library
  (name FloatView)
  (wrapped false)
- (libraries bitv zarith)
+ (libraries bitv zarith zarith_stubs_js)
  (modules Color Log Utils Binary Decimal Floats Convert))

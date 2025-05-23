@@ -1,0 +1,22 @@
+(executable
+  (name floatview_js)
+  (libraries FloatView gen_js_api js_core)
+  (preprocess (pps gen_js_api.ppx))
+  (modules log helper utils floatview_js)
+  (modes js)
+  (js_of_ocaml
+    (javascript_files extra_runtime.js)
+  )
+)
+(env (dev (flags (:standard -w -32))))
+
+(rule
+  (action (copy floatview_js.bc.js floatview.js))
+  (mode promote)
+)
+
+(install
+  (section lib)
+  (package FloatView)
+  (files (floatview_js.bc.js as floatview.js)
+         (index.html as index.html)))
