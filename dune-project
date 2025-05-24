@@ -11,7 +11,7 @@
 
 (maintainers "Josselin Giet <josselin.giet@ens.fr>")
 
-(license CeCILL)
+(license CECILL-2.1)
 
 (documentation https://url/to/documentation) ; TODO
 
@@ -19,6 +19,6 @@
  (name FloatView)
  (synopsis "Float representation visualizer")
  (description "A module to experiment with binary representation of floating point value")
- (depends ocaml bitv zarith)
+ (depends ocaml bitv zarith zarith_stubs_js gen_js_api)
  (tags
   ("float" "IEEE-754")))
