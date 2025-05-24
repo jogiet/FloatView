@@ -167,6 +167,10 @@ pre.dec_output {
   overflow-x: auto ; /* Hide horizontal scrollbar */
   overflow-y: hidden; /* Add vertical scrollbar */
   width: 70%;
+  margin: 0px;
+  padding: 10px 4px;
+  /* height: 1.2em; */
+  background-color: #000000;
 }
 
 div.input{
@@ -174,6 +178,7 @@ div.input{
   font-family: Menlo, Consolas, monospace;
   padding: 8px 4px;
   width: 10em;
+  height: 1.2em;
   border-radius: 10px;
   border: 2px solid #b9b9b9;
 }
@@ -181,19 +186,23 @@ div.container {
   margin: 20px 30px;
   display: flex;
   flex-wrap: wrap;
+  padding: 10px 4px;
 }
 div.usage {
   text-align: right;
+  font-size: 15px;
   width: 200px;
+  margin-right: 10px;
 }
 div.container div, div.container pre {
   font-family: Menlo, Consolas, monospace;
-  padding: 8px 4px;
+  padding: 10px 4px;
   font-size: 20px;
   color: #f7f7f7;
 }
 select, button {
   margin: 5px;
   font-size: 20px;
+  height: 1.7em;
   font-family: Menlo, Consolas, monospace;
 }
