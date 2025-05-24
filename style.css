@@ -1,0 +1,208 @@
+/*
+ * This File is part of the FloatView repository
+ * Copyright (C) 2025 - Josselin Giet
+ *
+ * This file is distributed under the terms of the CecILL v2.1.
+ * For more informations, see the LICENSE file.
+ */
+
+h1, h2, h3, h4, h5, h6, div.h7, div.h8, div.h9 {
+  font-family: Menlo, Consolas, monospace;
+  font-size: 2rem;
+  border: 1px solid #000;
+  margin-top: 20px;
+  margin-bottom: 2px;
+  text-align: center;
+  padding: 4px;
+  font-weight: normal;
+  width: 70%;
+  margin: auto;
+}
+h1 {
+  font-family: Menlo, Consolas, monospace;
+  font-size: 4rem;
+  padding: 10px;
+  background-color: #90FDFF;
+}
+
+h2 { background-color: #90BDFF; }
+h3 { background-color: #90DDFF; }
+h4 { background-color: #90EDFF; }
+h5 { background-color: #90FDFF; }
+h6 { background-color: #90BDFF; }
+div.h7 { background-color: #90DDFF; }
+div.h8 { background-color: #F0FFFF; }
+div.h9 { background-color: #FFFFFF; }
+
+body {
+  font-family: 'Inria Sans';
+  background-color : #303030;
+  font-size: 20px;
+  max-width: 100%;
+  margin: auto;
+  padding-bottom: 4em;
+}
+
+th.full {
+  font-size: 25px;
+  text-align: center;
+}
+
+td, th {
+  font-size: 20px;
+  padding: 1px 15px;
+}
+
+th {
+  text-align: left;
+}
+
+table.float {
+  border-collapse: collapse;
+}
+
+td {
+  text-align: right;
+  background-color: #FFFFFF;
+}
+
+tr.float td {
+  font-family: Menlo, Consolas, monospace;
+  padding: 8px 2px;
+  font-size: 25px;
+  border-left: 3px solid #cacaca;
+}
+
+tr.float td:last-child {
+  border-right: 3px solid #cacaca;
+  overflow:auto;
+}
+
+td.bit {
+  font-family: Menlo, Consolas, monospace;
+  padding: 1px 1px;
+}
+
+tr.float td[status="1"] {
+  border-top: 3px solid #ff0000;
+}
+
+tr.float td[status="0"] {
+  border-bottom: 3px solid #ff0000;
+}
+
+tr.float td[status="1"] + td[status="0"] {
+  border-left: 3px solid #ff0000;
+  overflow:auto;
+}
+
+tr.float td[status="0"] + td[status="1"] {
+  border-left: 3px solid #ff0000;
+  overflow:auto;
+}
+
+tr.float td[status="1"]:first-child {
+  border-left: 3px solid #ff0000;
+}
+
+tr.float td[status="1"]:last-child {
+  border-right: 3px solid #ff0000;
+  overflow:auto;
+}
+
+td.sign {
+  background-color: #fac2c2;
+}
+
+td.exp {
+  background-color: #bdeefd;
+}
+
+td.mantissa {
+  background-color: #bbffb6;
+}
+
+td.sign:nth-child(even) {
+  background-color: #ff8787;
+}
+
+td.exp:nth-child(even) {
+  background-color: #84e1fd;
+}
+
+td.mantissa:nth-child(even) {
+  background-color: #87ff7f;
+}
+
+tr:nth-child(even) td {
+  background-color: #F0F0FF;
+}
+
+th {
+  background-color: #daeeff;
+}
+
+th.bench {
+  padding: 10px 25px;
+}
+
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #838383;
+}
+
+div.dec_input {
+  background-color: #494949;
+  font-family: Menlo, Consolas, monospace;
+  padding: 8px 4px;
+  font-size: 20px;
+  width: 70%;
+  border-radius: 10px;
+  border: 2px solid #b9b9b9;
+}
+
+pre.dec_output {
+  overflow-x: auto ; /* Hide horizontal scrollbar */
+  overflow-y: hidden; /* Add vertical scrollbar */
+  width: 70%;
+  margin: 0px;
+  padding: 10px 4px;
+  /* height: 1.2em; */
+  background-color: #000000;
+}
+
+div.input{
+  background-color: #4e4e4e;
+  font-family: Menlo, Consolas, monospace;
+  padding: 8px 4px;
+  width: 10em;
+  height: 1.2em;
+  border-radius: 10px;
+  border: 2px solid #b9b9b9;
+}
+div.container {
+  margin: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 4px;
+}
+div.usage {
+  text-align: right;
+  font-size: 15px;
+  width: 200px;
+  margin-right: 10px;
+}
+div.container div, div.container pre {
+  font-family: Menlo, Consolas, monospace;
+  padding: 10px 4px;
+  font-size: 20px;
+  color: #f7f7f7;
+}
+select, button {
+  margin: 5px;
+  font-size: 20px;
+  height: 1.7em;
+  font-family: Menlo, Consolas, monospace;
+}
