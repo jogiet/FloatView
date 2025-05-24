@@ -78,7 +78,7 @@ let sub d1 d2 =
 type t = decimal
 
 let pp fmt d =
-  if d.sign then () else Format.fprintf fmt "-";
+  if d.sign then Format.fprintf fmt "+" else Format.fprintf fmt "-";
   Z.pp_print fmt d.int_part;
   if Z.equal Z.zero d.frac_part then () else
   Format.fprintf fmt ".%s"
