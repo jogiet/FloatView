@@ -194,17 +194,19 @@ let add_decimal e =
   let container = Helper.create "div" ~class_name:"container" in
   let usage = Helper.create "div" ~class_name:"usage" ~text:"Decimal value" in
   Node.append_child container usage;
-  let div_decimal = Helper.create "div" ~class_name:"dec_output" ~id:"dec_out" in
+  let pre_decimal = Helper.create "pre" ~class_name:"dec_output" ~id:"dec_out" in
   let d = !current_float |> Convert.float_to_bin |> Convert.bin_to_dec in
-  Node.set_text_content div_decimal (Format.asprintf "%a" D.pp d);
-  Node.append_child container div_decimal;
+  Node.set_text_content pre_decimal (Format.asprintf "%a" D.pp d);
+  Node.append_child container pre_decimal;
   Node.append_child e container;
   let container = Helper.create "div" ~class_name:"container" in
   let usage = Helper.create "div" ~class_name:"usage" ~text:"Error value" in
   Element.set_attribute usage "title" "error = value - input";
   Node.append_child container usage;
-  let div_decimal = Helper.create "div" ~class_name:"dec_output" ~id:"err_out" in
-  Node.append_child container div_decimal;
+  let pre_error = Helper.create "pre" ~class_name:"dec_output" ~id:"err_out" in
+  let err = D.sub d !current_dec in
+  Node.set_text_content pre_error (Format.asprintf "%a" D.pp err);
+  Node.append_child container pre_error;
   Node.append_child e container
 
 let available_precisions = [

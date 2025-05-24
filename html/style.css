@@ -163,7 +163,7 @@ div.dec_input {
   border: 2px solid #b9b9b9;
 }
 
-div.dec_output {
+pre.dec_output {
   overflow-x: auto ; /* Hide horizontal scrollbar */
   overflow-y: hidden; /* Add vertical scrollbar */
   width: 70%;
@@ -186,7 +186,7 @@ div.usage {
   text-align: right;
   width: 200px;
 }
-div.container div {
+div.container div, div.container pre {
   font-family: Menlo, Consolas, monospace;
   padding: 8px 4px;
   font-size: 20px;
