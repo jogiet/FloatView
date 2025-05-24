@@ -1,0 +1,50 @@
+name: page
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    strategy:
+      matrix:
+        os:
+          - "ubuntu-latest"
+        ocaml-compiler:
+          - "5.1"
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set-up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - name: pin Bitv
+        run: opam pin add bitv https://github.com/nicolasdespres/bitv.git#fix-max-length-overflow
+
+      - name: install dependancies
+        run: opam install . --deps-only -y
+
+      - name: Build
+        run: opam exec -- dune build
+
+      -
+        name: Copy pages
+        run: |
+          mkdir public
+          cp html/index.html public/index.html
+          cp html/floatview.js public/floatview.js
+          cp html/style.css public/style.css
+      -
+        name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
