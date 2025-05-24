@@ -6,6 +6,8 @@
  * For more informations, see the LICENSE file.
  *)
 
+module Z = Utils.Z
+
 (** Module used for exact representation and operations of decimal values. *)
 
 (** {1 Arbitrary decimal representation} *)
@@ -32,7 +34,7 @@ type decimal = {
 let extend_frac d size =
   assert (size >= d.size_frac);
   if size = d.size_frac then d else
-  let padd = Z.of_string ("1"^(String.make (size-d.size_frac) '0')) in
+  let padd = Z.pow10 (size-d.size_frac) in
   let frac_part = Z.mul d.frac_part padd in
   { d with size_frac = size; frac_part }
 
@@ -52,7 +54,7 @@ let add d1 d2 =
   let d2 = extend_frac d2 size_frac |> propagate_sign in
   let int_part = Z.add d1.int_part d2.int_part in
   let frac_part = Z.add d1.frac_part d2.frac_part in
-  let fact = Z.of_string ("1"^(String.make size_frac '0')) in
+  let fact = Z.pow10 size_frac in
   let overflow, frac_part = Z.div_rem frac_part fact in
   let int_part = Z.add int_part overflow in
   let int_part, frac_part, sign = match Z.geq int_part Z.zero, Z.geq frac_part Z.zero with
@@ -143,17 +145,17 @@ let pow10 d p =
   if p = 0 then d else
   if p > 0 then
     let size_frac = max 0 (d.size_frac - p) in
-    let fact = Z.of_string ("1"^(String.make size_frac '0')) in
+    let fact = Z.pow10 size_frac in
     let div, frac_part = Z.div_rem d.frac_part fact in
-    let fact_int = Z.of_string ("1"^(String.make p '0')) in
+    let fact_int = Z.pow10 p in
     let int_part = Z.add div (Z.mul d.int_part fact_int) in
     { size_frac; int_part; frac_part; sign = d.sign }
   else
     let p = -p in
     let size_frac = p + d.size_frac in
-    let fact = Z.of_string ("1"^(String.make p '0')) in
+    let fact =  Z.pow10 p in
     let int_part, rem = Z.div_rem d.int_part fact in
-    let fact_frac = Z.of_string ("1"^(String.make d.size_frac '0')) in
+    let fact_frac = Z.pow10 d.size_frac in
     let frac_part = Z.add d.frac_part (Z.mul fact_frac rem) in
     { size_frac; int_part; frac_part; sign = d.sign }
 

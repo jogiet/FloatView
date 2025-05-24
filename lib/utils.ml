@@ -13,3 +13,13 @@ let pp_float fmt (f: float) =
   let i: nativeint = Obj.raw_field t 0 in
   let v = Bitv.of_nativeint_s i in
   Format.fprintf fmt "%a" Bitv.M.print v
+
+module Z = struct
+  include Z
+
+  (** [pow10 n] returns [10^n]. *)
+  let pow10 n =
+    let ten = Z.of_int 10 in
+    Z.pow ten n
+  
+end
